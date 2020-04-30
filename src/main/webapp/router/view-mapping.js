@@ -6,24 +6,6 @@
 
 const view = {
 	model: {
-		root: {
-			root: '',
-			pages: {
-				register: '/register.html',
-				login: '/login.html',
-				sendReset: '/reset_send.html',
-				reset: '/reset.html'
-			}
-		},
-		one: {
-			root: '/one/home',
-			pages: {
-				home: '/home.html',
-				login: '/login.html',
-				register: '/register.html',
-				pay: '/pay.html'
-			}
-		},
 		test: {
 			root: '/test',
 			pages: {

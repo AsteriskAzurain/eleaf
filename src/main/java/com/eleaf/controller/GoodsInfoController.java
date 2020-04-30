@@ -2,12 +2,16 @@ package com.eleaf.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.eleaf.entity.DataResponse;
 import com.eleaf.entity.GoodsInfo;
@@ -166,5 +170,19 @@ public class GoodsInfoController {
 			return response.success(null);
 		}
 		return response.error();
+	}
+	/**
+	 * 按照商品名模糊查找
+	 * */
+	@GetMapping("/queryByName")
+	@ResponseBody
+	private ModelAndView goodsquerybyName(@RequestParam("likename") String likename,HttpSession session) {
+		String view="redirect:/one/home/search.jsp";
+		ModelAndView mv = new ModelAndView(view);
+		List<GoodsInfo> result = service.search(likename);
+		session.setAttribute("likename", likename);
+		session.setAttribute("num", result.size());
+		session.setAttribute("list", result);
+		return mv;
 	}
 }

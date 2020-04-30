@@ -31,7 +31,7 @@ function tip(msg, level = 'info', durability = 2000, speed = 500) {
 			tip_jq.addClass('color-disabled');
 			break;
 		default:
-			tip_jq.addClass('color-gray');
+			tip_jq.addClass('color-primary');
 			break;
 	}
 	tip_jq.hide().appendTo('body').fadeIn(speed);

@@ -31,13 +31,5 @@ public interface AdminMapper extends BaseMapper<Admin> {
 	 */
 	List<Admin> searchByUsername(@Param("keywords") String keywords, @Param("appearOnly") boolean appearOnly);
 	
-	/**
-	 * 修改密码
-	 * 
-	 * @param id 管理员主键
-	 * @param password 新密码
-	 * @param appearOnly 如果只想修改可见，则传入 true
-	 * @return
-	 */
 	int updatePassword(@Param("id") String id, @Param("password") String password, @Param("appearOnly") boolean appearOnly);
 }
