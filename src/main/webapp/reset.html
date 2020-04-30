@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="./resources/js/rendering.js"></script>
+<script type="text/javascript" src="./resources/js/encryption-md5.js"></script>
+<script type="text/javascript" src="./router/view-mapping.js"></script>
+<script type="text/javascript" src="./server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="./resources/css/global.css" />
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+		font-size: 16px;
+	}
+
+	#resetArea {
+		display: flex;
+		position: relative;
+		width: 30rem;
+		margin: 0 auto;
+		padding: 1rem;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		background: #00bfff;
+		border-radius: 0.5rem;
+	}
+	
+	#resetArea h2 {
+		font-size: 1.5rem;
+		font-weight: 400;
+	}
+	
+	#resetArea .inputTxt {
+		position: relative;
+		margin: 0.5rem auto;
+		border: 1px solid #ddd;
+		background: #FFF;
+	}
+	
+	#resetArea .inputTxt input {
+		position: relative;
+		margin: 0 0 0 2rem;
+		width: 20rem;
+		height: 3rem;
+		outline: none;
+		border: none;
+		font-size: 1rem;
+	}
+	
+	#resetArea .inputBtn button {
+		position: relative;
+		margin: 1rem 1rem;
+		width: 22rem;
+		height: 2.5rem;
+		font-size: 1rem;
+	}
+</style>
+<title>eLeaf - 网上花卉市场</title>
+</head>
+<body>
+	<h1 style="display:block; text-align:center;">易叶花卉市场</h1>
+	<hr style="margin-bottom: 3rem;">
+	<div id="resetArea">
+		<h2>重置密码</h2>
+		<input id="input-id" type="hidden" />
+		<div class="inputTxt">
+			<input id="input-password" type="password" placeholder="请输入您的密码" >
+		</div>
+		<div class="inputTxt">
+			<input id="input-password-confirm" type="password" placeholder="请确认密码" >
+		</div>
+		<div class="inputBtn">
+			<button id="btn-reset">重置</button>
+		</div>
+	</div>
+	
+	<!-- 脚本 -->
+	<script type="text/javascript">
+		let request = parseParams(window.location.search.slice(1));
+		if (request.vc == '' || request.vc == null) {
+			view.dispatch('root', 'sendReset', 'from=send');
+		}
+		let vc = request.vc;
+		let verify_detect = function(response) {
+			if (response.code == '4500') {
+				view.dispatch('root', 'sendReset', 'from=send');
+			}
+		};
+		let params = {vc: vc};
+		let verify_resolve = function(dataset) {
+			$('input#input-id').val(dataset[0]);
+		}
+		verifyResetPwd(params, verify_detect, verify_resolve);
+	</script>
+	<script type="text/javascript">	
+		$('button#btn-reset').click(function() {
+			let id = $(':hidden#input-id').val();
+			let password = $(':password#input-password').val().trim();
+			if (password == '') {
+				tip('密码不能为空！', 'error');
+				return;
+			}
+			if (!/^\w{6,10}$/.test(password)) {
+				tip('密码不符合规范！', 'error');
+				return;
+			}
+			let password_confirm = $(':password#input-password-confirm').val().trim();
+			if (password_confirm == '') {
+				tip('确认密码不能为空！', 'error');
+				return;
+			}
+			if (!/^\w{6,10}$/.test(password_confirm)) {
+				tip('确认密码不符合规范！', 'error')
+				return;
+			}
+			if (password_confirm != password) {
+				tip('前后两遍密码不一致！', 'error');
+				return;
+			}
+			let params = {id: id, password: b64_md5(password)};
+			let reset_resolve = function(dataset) {
+				view.redirect('root', 'login');
+				tip('重置成功！', 'success');
+			};
+			resetPwd(params, $.noop, reset_resolve);
+		});
+	</script>
+</body>
+</html>

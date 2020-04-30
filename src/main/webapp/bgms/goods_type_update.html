@@ -1,0 +1,58 @@
+<section class="py-5">
+	<div class="col">
+		<div class="row-lg-6 mb-4">
+			<div class="card">
+				
+				<div class="card-header">
+					<h6 class="text-uppercase mb-0">商品类别管理</h6>
+				</div>
+				
+				<div class="card-body">
+					<fieldset>
+						<legend>修改类别</legend>
+						<div class="form-group mt-4">
+							<label for="InputTypeId">类别id</label>
+							<input id="InputTypeId" type="text" class="form-control" readonly="readonly" />
+						</div>
+						<div class="form-group mt-4">
+							<label for="InputTypeName">类别名</label>
+							<input id="InputTypeName" type="text" class="form-control" />
+						</div>
+						<div class="form-group mt-4">
+							<label for="customRadio">是否启用</label>
+							<div class="custom-control custom-radio">
+								<input id="customRadio1" type="radio" name="customRadio" class="custom-control-input" value="1" checked="checked" />
+								<label for="customRadio1" class="custom-control-label">启用</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input id="customRadio0" type="radio" name="customRadio" class="custom-control-input" value="0" />
+								<label for="customRadio0" class="custom-control-label">不启用</label>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary mt-4">提交修改</button>
+					</fieldset>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+	$('div#goods-collapse').addClass('show');
+	$('a[href="#goods-collapse"]').addClass('active');
+	$('a.sidebar-link#goods_type').addClass('active');
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		console.log(window.location.search.slice(1));
+		let params = parseParams(window.location.search.slice(1));
+		let id = params['id'];
+		console.log(params);
+		console.log(id);
+		if (id == null || id == '') {
+			return;
+		}
+		$('input#InputTypeId').val(id);
+	});
+</script>

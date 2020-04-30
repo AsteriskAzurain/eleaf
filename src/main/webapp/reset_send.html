@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="./resources/js/rendering.js"></script>
+<script type="text/javascript" src="./resources/js/encryption-md5.js"></script>
+<script type="text/javascript" src="./router/view-mapping.js"></script>
+<script type="text/javascript" src="./server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="./resources/css/global.css" />
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+		font-size: 16px;
+	}
+
+	#resetArea {
+		display: flex;
+		position: relative;
+		width: 30rem;
+		margin: 0 auto;
+		padding: 1rem;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		background: #00bfff;
+		border-radius: 0.5rem;
+	}
+	
+	#resetArea h2 {
+		font-size: 1.5rem;
+		font-weight: 400;
+	}
+	
+	#resetArea .inputTxt {
+		position: relative;
+		margin: 0.5rem auto;
+		border: 1px solid #ddd;
+		background: #FFF;
+	}
+	
+	#resetArea .inputTxt input {
+		position: relative;
+		margin: 0 0 0 2rem;
+		width: 20rem;
+		height: 3rem;
+		outline: none;
+		border: none;
+		font-size: 1rem;
+	}
+	
+	#resetArea .inputBtn button {
+		position: relative;
+		margin: 1rem 1rem;
+		width: 22rem;
+		height: 2.5rem;
+		font-size: 1rem;
+	}
+</style>
+<title>eLeaf - 网上花卉市场</title>
+</head>
+<body>
+	<h1 style="display:block; text-align:center;">易叶花卉市场</h1>
+	<hr style="margin-bottom: 3rem;">
+	<div id="resetArea">
+		<h2>重置密码</h2>
+		<input id="input-id" type="hidden" />
+		<div class="inputTxt">
+			<input id="input-username" type="text" placeholder="请输入您的用户名" >
+		</div>
+		<div class="inputTxt">
+			<input id="input-email" type="text" placeholder="请输入您的邮箱" >
+		</div>
+		<div class="inputBtn">
+			<button id="btn-send">发送重置请求</button>
+		</div>
+	</div>
+	<div id="result-url"></div>
+	
+	<!-- 脚本 -->
+	<script type="text/javascript">
+		let request = parseParams(window.location.search.slice(1));
+		if (request.from == 'send') {
+			tip('当前链接已失效，请重新申请重置！', 'error');
+		}
+	</script>
+	<script type="text/javascript">	
+		$('button#btn-send').click(function() {
+			let username = $(':text#input-username').val().trim();
+			if (username == '') {
+				tip('用户名不能为空！', 'error');
+				return;
+			}
+			if (!/^\w{6,10}$/.test(username)) {
+				tip('用户名不符合规范！', 'error');
+				return;
+			}
+			let email = $(':text#input-email').val().trim();
+			if (email == '') {
+				tip('邮箱不能为空！', 'error');
+				return;
+			}
+			if (!/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(email)) {
+				tip('邮箱不符合规范！', 'error');
+				return;
+			}
+			let params = {username: username, email: email};
+			let reset_resolve = function(dataset) {
+				console.log(dataset);
+				$('div#result-url').text(view.getUrl('root', 'reset', `vc=${dataset}`));
+				tip('发送成功，请检查您的个人邮箱！', 'success');
+			};
+			sendResetPwd(params, $.noop, reset_resolve);
+		});
+	</script>
+</body>
+</html>

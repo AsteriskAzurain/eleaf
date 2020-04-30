@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/encryption-md5.js"></script>
+<style type="text/css">
+	* {
+		font-size: 16px;
+		color: #000;
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.content {
+		text-indent: 2rem;
+	}
+
+	table {
+		margin: 1rem;
+		border-collapse: collapse;
+	}
+
+	table, th, td {
+		padding: 0.5rem;
+		border: 1px solid #000;
+	}
+</style>
+<title>加密测试</title>
+</head>
+<body>
+	<h2>加密测试</h2>
+	<input type="text" name="text" placeholder="请输入明文" maxlength="2016" />
+	<br />
+	<input type="submit" value="加密" id="encrypt" />
+	<div id="result"></div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#encrypt").click(function() {
+				var text = $('[name="text"]').val();
+				var encrypt_type = new Array("hex", "b64", "str", "hex_hmac", "b64_hmac", "str_hmac");
+				var ciphertext = new Array(hex_md5(text), b64_md5(text), str_md5(text), hex_hmac_md5(text, text), b64_hmac_md5(text, text), str_hmac_md5(text, text));
+		        var html = '<table>\n';
+		        html += '<tr>\n<td>加密类型</td>\n<td>对应密文</td>\n<td>密文长度</td></tr>\n';
+		        for (var i = 0; i < 6; i++) {
+		        	html += '<tr>\n'
+		        	html += '<td>' + encrypt_type[i] + '</td>\n';
+		        	html += '<td>' + ciphertext[i] + '</td>\n';
+		        	html += '<td>' + ciphertext[i].length + '</td>\n'
+		        	html += '</tr>\n';
+		        }
+		        html += '</table>\n';
+		        $("#result").html(html);
+			});
+		});
+	</script>
+</body>
+</html>

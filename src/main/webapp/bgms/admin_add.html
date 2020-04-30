@@ -1,0 +1,70 @@
+<section class="py-5">
+	<div class="col">
+		<div class="row-lg-6 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<h6 class="text-uppercase mb-0">权限管理</h6>
+				</div>
+				<div class="card-body">
+					<fieldset>
+						<legend>新建管理员账号</legend>
+						<div class="form-group mt-4">
+							<label for="InputUsername">用户名</label>
+							<input id="InputUsername" type="text" placeholder="输入用户名" class="form-control" />
+						</div>
+						<div class="form-group mt-4">
+							<label for="InputPassword">密码</label>
+							<input id="InputPassword" type="text" placeholder="输入密码" class="form-control" />
+						</div>
+						<div class="form-group mt-4">
+							<label for="customRadio">权限</label>
+							<div class="custom-control custom-radio">
+								<input id="customRadio0" type="radio" name="customRadio" class="custom-control-input" value="0" checked="checked" />
+								<label for="customRadio0" class="custom-control-label">普通管理员</label>
+							</div>
+							<div class="custom-control custom-radio">
+								<input id="customRadio1" type="radio" name="customRadio" class="custom-control-input" value="1" />
+								<label for="customRadio1" class="custom-control-label">超级管理员</label>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary mt-4" id="btn-add">提交</button>
+					</fieldset>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+	$('a.sidebar-link#admin').addClass('active');
+	$('button#btn-add').click(function() {
+		let username = $('input#InputUsername').val().trim();
+		if (username == '') {
+			tip('用户名不能为空！', 'error');
+			return;
+		}
+		if (!/^\w{5,20}$/.test(username)) {
+			tip('用户名不符合规范！', 'error');
+			return;
+		}
+		let password = $('input#InputPassword').val().trim();
+		if (password == '') {
+			tip('密码不能为空！', 'error');
+			return;
+		}
+		if (!/^\w{6,12}$/.test(password)) {
+			tip('密码不符合规范！', 'error');
+			return;
+		}
+		let permission = $('input[name="customRadio"]:checked').val().trim() * 1;
+		let params = {username: username, password: b64_md5(password), permission: permission};
+		let add_resolve = function(dataset) {
+			tip('注册成功，3秒后<a href="./admin.jsp">返回</a>...', 'success', 3000);
+			window.setTimeout(function() {
+				changeTab('admin');
+				history.pushState({tab: 'admin'}, null, view.getUrl('bgms', 'bgms') + '?tab=admin');
+			}, 3000);
+		};
+		adminAdd(params, $.noop, add_resolve);
+	});
+</script>

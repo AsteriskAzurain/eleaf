@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="./resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="./resources/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="./resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="./resources/js/rendering.js"></script>
+<script type="text/javascript" src="./resources/js/encryption-md5.js"></script>
+<script type="text/javascript" src="./router/view-mapping.js"></script>
+<script type="text/javascript" src="./server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="./resources/css/global.css" />
+<style type="text/css">
+	body {
+		margin: 0;
+		padding: 0;
+		font-size: 16px;
+	}
+	
+	#header {
+		display: flex;
+		position: relative;
+		background: #87ceeb;
+		height: 22rem;
+		justify-content: space-around;
+		align-items: center;
+	}
+	
+	#imgArea {
+		display: felx;
+		position: relative;
+		width: 50%;
+		height: 100%;
+		background: #79cdcd;
+	}
+	
+	#loginArea {
+		display: flex;
+		postion: relative;
+		height: auto;
+		flex: 0.2 1 auto;
+		flex-direction: column;
+		justify-content: center;
+		text-align: center;
+		background: #fff;
+		border-radius: 0.5rem;
+	}
+	
+	#loginArea h2 {
+		font-size: 1.5rem;
+		font-weight: 400;
+	}
+	
+	#loginArea .inputTxt {
+		position: relative;
+		margin: 0.5rem auto;
+		border: 1px solid #ddd;
+		background: #FFF;
+	}
+	
+	#loginArea .inputTxt input {
+		position: relative;
+		margin: 0 0 0 2rem;
+		width: 20rem;
+		height: 3rem;
+		outline: none;
+		border: none;
+		font-size: 1rem;
+	}
+	
+	#loginArea .inputBtn button {
+		position: relative;
+		margin: 1rem 1rem;
+		width: 4rem;
+		height: 2rem;
+		font-size: 1rem;
+	}
+</style>
+<title>eLeaf - 网上花卉市场</title>
+</head>
+<body>
+	<h1 style="display:block; text-align:center;">易叶花卉市场</h1>
+	<hr>
+	<div id="header">
+		<div id="imgArea">
+			
+		</div>
+		<div id="loginArea">
+			<h2>用户登录</h2>
+			<div class="inputTxt">
+				<input id="input-username" type="text" placeholder="请输入您的用户名">
+			</div>
+			<div class="inputTxt">
+				<input id="input-password" type="password" placeholder="请输入密码">
+			</div>
+			<div class="inputBtn">
+				<button id="btn-login">登录</button>
+				<button id="btn-register">注册</button>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$('button#btn-login').click(function() {
+			let username = $(':text#input-username').val();
+			if (username == '') {
+				tip('用户名不能为空！', 'error');
+				return;
+			}
+			let password = $(':password#input-password').val();
+			if (password == '') {
+				tip('密码不能为空！', 'error');
+				return;
+			}
+			let params = {username: username, password: b64_md5(password)};
+			let login_resolve = function(dataset) {
+				$.cookie('auth', dataset.id)
+				view.redirect('one', 'home');
+			};
+			memberLogin(params, $.noop, login_resolve);
+		});
+		$('button#input-register').click(function() {
+			view.redirect('root', 'register');
+		});
+	</script>
+</body>
+</html>

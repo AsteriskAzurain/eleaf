@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="all,follow" />
+<title>eLeaf 后台管理系统</title>
+<script type="text/javascript" src="./vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="./vendor/popper.js/umd/popper.min.js"> </script>
+<script type="text/javascript" src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./vendor/jquery.cookie/jquery.cookie.js"> </script>
+<script type="text/javascript" src="./vendor/chart.js/Chart.min.js"></script>
+<script type="text/javascript" src="./js/js.cookie.min.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+<script type="text/javascript" src="../resources/js/encryption-md5.js"></script>
+<script type="text/javascript" src="../resources/js/rendering.js"></script>
+<script type="text/javascript" src="../resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="../router/view-mapping.js"></script>
+<script type="text/javascript" src="../server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+<!-- Bootstrap CSS-->
+<link rel="stylesheet" type="text/css" href="./vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome CSS-->
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+<!-- Google fonts - Popppins for copy-->
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800" />
+<!-- orion icons-->
+<link rel="stylesheet" type="text/css" href="./css/orionicons.css" />
+<!-- theme stylesheet-->
+<link rel="stylesheet" type="text/css" href="./css/style.default.css" id="theme-stylesheet" />
+<!-- Custom stylesheet - for your changes-->
+<link rel="stylesheet" type="text/css" href="./css/custom.css" />
+<!-- Favicon-->
+<link rel="shortcut icon" href="./img/favicon.png?3" />
+<link rel="stylesheet" type="text/css" href="./css/btn_puton.css" />
+</head>
+<body>
+	<!-- 模态框：修改密码 -->
+	<div id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" class="modal fade text-left">
+		<div role="document" class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 id="exampleModalLabel" class="modal-title">修改密码</h4>
+					<button type="button" data-dismiss="modal" aria-label="Close" class="close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group">
+							<label>密码</label>
+							<input type="password" placeholder="请输入新密码" class="form-control" id="password" />
+						</div>
+						<div class="form-group">
+							<label>确认密码</label>
+							<input type="password" placeholder="请确认密码" class="form-control" id="password-again" />
+						</div>
+						<div class="form-group">
+							<input type="button" value="修改" class="btn btn-primary" id="btn-updatePwd"/>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-secondary">
+						关闭
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- 页眉： 顶部菜单栏 -->
+	<header class="header">
+		<nav class="navbar navbar-expand-lg px-4 py-2 bg-white shadow">
+			<a href="javascript:;" class="sidebar-toggler text-gray-500 mr-4 mr-lg-5 lead">
+				<i class="fas fa-align-left"></i>
+			</a>
+			<a href="javascript:;" class="navbar-brand font-weight-bold text-uppercase text-base">eLeaf后台管理系统</a>
+			<ul class="ml-auto d-flex align-items-center list-unstyled mb-0">
+				<li class="nav-item dropdown mr-3">
+					<a id="notifications" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle text-gray-400 px-1">
+						<i class="fa fa-bell"></i>
+						<span class="notification-icon"></span>
+					</a>
+					<div aria-labelledby="notifications" class="dropdown-menu">
+						<a href="javascript:;" class="dropdown-item" id="btn-msg">
+							<div class="d-flex align-items-center">
+								<div class="icon icon-sm bg-blue text-white">
+									<i class="fas fa-envelope"></i>
+								</div>
+								<div class="text ml-2">
+									<p class="mb-0">2件商品待发货</p>
+								</div>
+							</div>
+						</a>
+					</div>
+				</li>
+				<li class="nav-item dropdown ml-auto">
+					<a id="userInfo" href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+						<img src="img/avatar-6.jpg" alt="Mark Stephen" style="max-width: 2.5rem;" class="img-fluid rounded-circle shadow">
+					</a>
+					<div aria-labelledby="userInfo" class="dropdown-menu">
+						<a href="javascript:;" class="dropdown-item">
+							<strong class="d-block text-uppercase headings-font-family" id="admin-username"></strong>
+							<small id="admin-permission"></small>
+						</a>
+						<div class="dropdown-divider"></div>
+						<a href="javascript:;" class="dropdown-item" data-toggle="modal" data-target="#myModal">修改密码</a>
+						<div class="dropdown-divider"></div>
+						<a href="javascript:;" class="dropdown-item" id="btn-logout">退出</a>
+					</div>
+				</li>
+			</ul>
+		</nav>
+	</header>
+	
+	<!-- 页身 -->
+	<div class="d-flex align-items-stretch">
+		<!-- 左侧：导航栏 -->
+		<div id="sidebar" class="sidebar py-3">
+			<div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family"></div>
+			<ul class="sidebar-menu list-unstyled" id="bgms-sidebar">
+				<li class="sidebar-list-item">
+					<a href="javascript:;" class="sidebar-link text-muted" id="home">
+						<i class="o-home-1 mr-3 text-gray"></i>
+						<span>主页</span>
+					</a>
+				</li>
+				<li class="sidebar-list-item">
+					<a href="#goods-collapse" class="sidebar-link text-muted" data-toggle="collapse">
+						<i class="o-sales-up-1 mr-3 text-gray"></i>
+						<span>商品管理</span>
+					</a>
+					<div class="collapse" id="goods-collapse" data-parent="#bgms-sidebar">
+						<ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+							<li class="sidebar-list-item">
+								<a href="javascript:;" class="sidebar-link text-muted pl-lg-5" id="goods_type">商品类别</a>
+							</li>
+							<li class="sidebar-list-item">
+								<a href="javascript:;" class="sidebar-link text-muted pl-lg-5" id="goods_info">商品详情</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="sidebar-list-item">
+					<a href="#orders-collapse" class="sidebar-link text-muted" data-toggle="collapse">
+						<i class="o-table-content-1 mr-3 text-gray"></i>
+						<span>订单管理</span>
+					</a>
+					<div class="collapse" id="orders-collapse" data-parent="#bgms-sidebar">
+						<ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+							<li class="sidebar-list-item">
+								<a href="javascript:;" class="sidebar-link text-muted pl-lg-5" id="order_log">订单日志</a>
+							</li>
+							<li class="sidebar-list-item">
+								<a href="javascript:;" class="sidebar-link text-muted pl-lg-5" id="order_info">订单详情</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+				<li class="sidebar-list-item">
+					<a href="javascript:;" class="sidebar-link text-muted" id="member">
+						<i class="o-survey-1 mr-3 text-gray"></i>
+						<span>会员管理</span>
+					</a>
+				</li>
+				<li class="sidebar-list-item">
+					<a href="javascript:;" class="sidebar-link text-muted" id="admin">
+						<i class="o-wireframe-1 mr-3 text-gray"></i>
+						<span>权限管理</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+		
+		<!-- 右侧 -->
+		<div class="page-holder w-100 d-flex flex-wrap">
+			<!-- 正文 -->
+			<div class="container-fluid px-xl-5" id="main-body"></div>
+			
+			<!-- 页脚 -->
+			<footer class="footer bg-white shadow align-self-end py-3 px-xl-5 w-100">
+				<div class='container-fluid'>
+					<div class='row'>
+						<div class='col-md-6 text-center text-md-left text-primary'>
+							<p class='mb-2 mb-md-0'></p>
+						</div>
+						<div class='col-md-6 text-center text-md-right text-gray-400'>
+							<p class='mb-0'>
+								Copyright &copy; 2019. eLeaf Group8301 All rights reserved.
+							</p>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+	</div>
+	
+	<!-- 脚本 -->
+	<script type="text/javascript">
+		let id = $.cookie('auth');
+		if (id == null || id == 'null') {
+			view.redirect('bgms', 'login');
+		}
+		let params = {id: id};
+		let bgms_resolve = function(dataset) {
+			$('#admin-username').text(dataset.username);
+			if (dataset.permission != 1) {
+				$('#admin-permission').text('超级管理员');
+			} else {
+				$('#admin-permission').text('普通管理员');
+			}
+		};
+		getAdminById(params, $.noop, bgms_resolve);
+	</script>
+	<script type="text/javascript">
+		if (window.history.state === null) {
+			history.replaceState({tab: 'home'}, null, view.getUrl('bgms', 'bgms') + '?tab=home');
+		}
+		
+		const changeTab = (tab) => {
+			// 更新动画效果
+			$('a.sidebar-link').removeClass('active');
+			$('div#sidebar div.collapse').removeClass('show');
+			let current_tab = $(`a.sidebar-link#${tab}`)
+			current_tab.addClass('active');
+			current_tab.parents().siblings('a.sidebar-link').addClass('active');
+			current_tab.parents('div.collapse').addClass('show');
+			
+			// ajax请求
+			$.get(view.getUrl('bgms', tab), function(data) {
+				// 回调函数：渲染分页
+				$('div#main-body').html(data);
+			});
+		};
+	
+		window.addEventListener('popstate', (event) => {
+		    if(event.state !== null) {
+		    	let tab = event.state.tab;
+		    	changeTab(tab);
+		    }
+		});
+	</script>
+	<script type="text/javascript">
+		$(':button#btn-updatePwd').click(function() {
+			let password = $(':password#password').val().trim();
+			if (password == '') {
+				tip('密码不能为空！', 'error');
+				return;
+			}
+			if (!/^\w{6,12}$/.test(password)) {
+				tip('密码不符合规范！', 'error');
+				return;
+			}
+			let password_again = $(':password#password-again').val().trim();
+			if (password_again == '') {
+				tip('确认密码不能为空！', 'error');
+				return;
+			}
+			if (!/^\w{6,12}$/.test(password_again)) {
+				tip('确认密码不符合规范！', 'error');
+				return;
+			}
+			if (password != password_again) {
+				tip('前后两遍密码不一致！', 'error');
+				return;
+			}
+			let params = {id: $.cookie('auth'), password: b64_md5(password)};
+			let pwd_resolve = function(dataset) {
+				$('div#myModal').modal('hide');
+				tip("修改成功！", 'success');
+			};
+			adminUpdatePwd(params, $.noop, pwd_resolve);
+		});
+		$('a#btn-msg').on('click', function() {
+			changeTab('order_info');
+			history.pushState({tab: 'order_info'}, null, view.getUrl('bgms', 'bgms') + '?tab=order_info');
+		});
+		$('a#btn-logout').on('click', function() {
+			if (confirm('您是否确定退出系统？')) {
+				$.cookie('auth', null);
+				view.redirect('bgms', 'login');
+			}
+		});
+		$('a.sidebar-link').on('click', function() {
+			// 获取分页id
+			let tab = $(this).attr('id')
+			
+			// 获取并渲染分页内容
+			if (tab != null) {
+				changeTab(tab);
+				history.pushState({tab: tab}, null, view.getUrl('bgms', 'bgms') + `?tab=${tab}`);
+			}
+			
+		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			changeTab(window.history.state.tab);
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="all,follow" />
+<title>eLeaf 后台管理系统</title>
+<script type="text/javascript" src="./vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="./vendor/popper.js/umd/popper.min.js"> </script>
+<script type="text/javascript" src="./vendor/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="./vendor/jquery.cookie/jquery.cookie.js"> </script>
+<script type="text/javascript" src="./vendor/chart.js/Chart.min.js"></script>
+<script type="text/javascript" src="./js/js.cookie.min.js"></script>
+<script type="text/javascript" src="./js/front.js"></script>
+<script type="text/javascript" src="../resources/js/encryption-md5.js"></script>
+<script type="text/javascript" src="../resources/js/rendering.js"></script>
+<script type="text/javascript" src="../resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="../router/view-mapping.js"></script>
+<script type="text/javascript" src="../server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+<!-- Bootstrap CSS-->
+<link rel="stylesheet" type="text/css" href="./vendor/bootstrap/css/bootstrap.min.css" />
+<!-- Font Awesome CSS-->
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous" />
+<!-- Google fonts - Popppins for copy-->
+<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins:300,400,800" />
+<!-- orion icons-->
+<link rel="stylesheet" type="text/css" href="./css/orionicons.css" />
+<!-- theme stylesheet-->
+<link rel="stylesheet" type="text/css" href="./css/style.default.css" id="theme-stylesheet" />
+<!-- Custom stylesheet - for your changes-->
+<link rel="stylesheet" type="text/css" href="./css/custom.css" />
+<!-- Favicon-->
+<link rel="shortcut icon" href="./img/favicon.png?3" />
+<link rel="stylesheet" type="text/css" href="./css/btn_puton.css" />
+</head>
+<body>
+	<div class="page-holder d-flex align-items-center">
+		<div class="container">
+			<div class="row align-items-center py-5">
+				
+				<div class="col-5 col-lg-7 mx-auto mb-5 mb-lg-0">
+					<div class="pr-lg-5">
+						<img src="img/illustration.svg" alt="" class="img-fluid">
+					</div>
+				</div>
+				
+				<div class="col-lg-5 px-lg-4">
+					<h1 class="text-base text-primary text-uppercase mb-4">eLeaf后台管理系统</h1>
+					<h2 class="mb-4">Welcome back!</h2>
+						<div class="form-group mb-4">
+							<input type="text" name="username" placeholder="输入用户名" class="form-control border-0 shadow form-control-lg" />
+						</div>
+						<div class="form-group mb-4">
+							<input type="password" name="password" placeholder="输入密码" class="form-control border-0 shadow form-control-lg text-violet" />
+						</div>
+						<div class="form-group mb-4">
+							<div class="custom-control custom-checkbox">
+								<input id="customCheck1" type="checkbox" class="custom-control-input">
+								<label for="customCheck1" class="custom-control-label">记住密码</label>
+							</div>
+						</div>
+						<button type="submit" class="btn btn-primary shadow px-5" id="btn-login">登录</button>
+				</div>
+			</div>
+			<p class="mt-5 mb-0 text-gray-400 text-center">
+				Copyright &copy; 2019. eLeaf Group8301 All rights reserved.
+			</p>
+		</div>
+	</div>
+	<!-- 脚本 -->
+	<script type="text/javascript">
+		$('button#btn-login').click(function() {
+			let username = $('input[name="username"]').val();
+			if (username == '') {
+				tip('用户名不能为空！', 'error');
+				return;
+			}
+			let password = $('input[name="password"]').val();
+			if (password == '') {
+				tip('密码为空！', 'error');
+				return;
+			}
+			let params = {username: username, password: b64_md5(password)};
+			let resolve = function(dataset) {
+				$.cookie('auth', dataset);  // 将 id 写入到cookie中
+				view.redirect('bgms', 'bgms');
+			};
+			adminLogin(params, $.noop, resolve);
+		});
+	</script>
+</body>
+</html>

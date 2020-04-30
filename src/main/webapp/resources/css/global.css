@@ -1,0 +1,56 @@
+@charset "UTF-8";
+/** 
+ * @auther: CTidy
+ */
+
+/**
+ * Writing standard of CSS document
+ * 1. POSTION: position, top, right, bottom, left, z-index, display, float, etc.
+ * 2. SIZE: [max-|min-]width, [max-|min-]height, padding, margin, etc.
+ * 3. FONT & TEXT: line-height, font, color, text-align, text-decoration, text-indent, letter-spacing, etc.
+ * 4. BACK: background, border, box, etc.
+ * 5. OTHER: list-style-type, animation, transition, cursor, etc.
+ */
+ 
+.tip {
+	position: static;
+	display: block;
+	padding: 0.5rem 1.5rem;
+	color: #000;
+	border-radius: 0.5rem;
+}
+.tip-fixed {
+	position: fixed;
+	top: 25%;
+	left: 50%;
+	z-index: 9999;
+	display: block;
+	padding: 0.5rem 2rem;
+	color: #000;
+	*opacity: 0.8;
+	border-radius: 0.5rem;
+	transform: translateX(-50%);
+}
+.color-info {
+	background: #6daceb
+}
+.color-error {
+	background: #f47d84;
+}
+.color-warn {
+	background: #fae75c;
+}
+.color-success {
+	background: #5eee68;
+}
+.color-gray {
+	background: #858585;
+}
+.color-black {
+	color: #fff;
+	background: #000;
+}
+.color-white {
+	color: #000;
+	background: #fff;
+}

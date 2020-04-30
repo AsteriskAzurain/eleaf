@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/rendering.js"></script>
+<script type="text/javascript" src="../resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="../router/view-mapping.js"></script>
+<script type="text/javascript" src="../server/api.js"></script>
+<link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+<style type="text/css">
+	* {
+		font-size: 16px;
+		color: #000;
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.content {
+		text-indent: 2rem;
+	}
+
+	table {
+		margin: 1rem;
+		border-collapse: collapse;
+	}
+
+	table, th, td {
+		padding: 0.5rem;
+		border: 1px solid #000;
+	}
+</style>
+<title>查询测试</title>
+</head>
+<body>
+	<h2>查询测试</h2>
+	<input type="submit" value="获取全部" id="get_all">
+	<div class="dataview" dataview="ss"></div>
+	<div class="dataview" dataview="user">
+		<table class="dv-unit">
+			<tr>
+				<td>id</td>
+				<td class="dv-elem-expose" dv-elem="id"></td>
+			</tr>
+			<tr>
+				<td>username</td>
+				<td class="dv-elem-expose" dv-elem="username"></td>
+			</tr>
+			<tr>
+				<td>password</td>
+				<td class="dv-elem-expose" dv-elem="password"></td>
+			</tr>
+			<tr>
+				<td>create time</td>
+				<td class="dv-elem-expose" dv-elem="createTime"></td>
+			</tr>
+			<tr>
+				<td>creator</td>
+				<td class="dv-elem-expose" dv-elem="creator"></td>
+			</tr>
+			<tr>
+				<td>modify time</td>
+				<td class="dv-elem-expose" dv-elem="modifyTime"></td>
+			</tr>
+			<tr>
+				<td>modifier</td>
+				<td class="dv-elem-expose" dv-elem="modifier"></td>
+			</tr>
+			<tr>
+				<td>memo</td>
+				<td class="dv-elem-expose" dv-elem="memo"></td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript">
+		$('#get_all').click(function() {
+			var resolve = function(dataset) {
+				dv_rendering(dataset, $('.dataview[dataview="user"]'), $.noop, $.noop);
+			};
+			getTestUserList(null, $.noop, resolve);
+		});
+	</script>
+</body>
+</html>

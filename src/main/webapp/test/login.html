@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/rendering.js"></script>
+<script type="text/javascript" src="../resources/js/ajax-jquery.js"></script>
+<script type="text/javascript" src="../router/view-mapping.js"></script>
+<script type="text/javascript" src="../server/api.js"></script>
+<script type="text/javascript" src="../resources/js/encryption-md5.js"></script>
+<link rel="stylesheet" type="text/css" href="../resources/css/global.css" />
+<style type="text/css">
+	* {
+		font-size: 16px;
+		color: #000;
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.content {
+		text-indent: 2rem;
+	}
+
+	table {
+		margin: 1rem;
+		border-collapse: collapse;
+	}
+
+	table, th, td {
+		padding: 0.5rem;
+		border: 1px solid #000;
+	}
+</style>
+<title>登录验证测试</title>
+</head>
+<body>
+	<h2>登录验证测试</h2>
+	<input type="text" name="username" placeholder="请输入用户名" maxlength="16" /><br/>
+	<input type="text" name="password" placeholder="请输入密码" maxlength="20" /><br/>
+	<input type="submit" value="登录" id="login" />
+	<div id="result"></div>
+	<script type="text/javascript">
+		$('#login').click(function() {
+			var resolve = function(dataset) {
+				if (dataset == null || dataset == "") {
+					$("#result").html("<span>登录失败！</span>");
+				} else {
+					$('#result').html('<span>欢迎！</span>')
+				}
+			};
+			var params = {username: $('[name="username"]').val(), password: b64_md5($('[name="password"]').val())}; 
+			testuserLogin(params, $.noop, resolve);
+		});
+	</script>
+</body>
+</html>

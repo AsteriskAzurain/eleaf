@@ -1,0 +1,105 @@
+<section class="py-5">
+	<div class="col">
+		
+		<!-- 操作区 -->
+		<form class="form-inline">
+			<button type="button" class="btn btn-primary mb-2" id="btn-add" style="margin-right: 20px">增加</button>
+			<div class="input-group mb-2">
+				<input type="text" class="form-control" placeholder="请输入搜索内容" aria-describedby="button-addon2">
+				<div class="input-group-append">
+					<button type="button" class="btn btn-primary" id="btn-search">搜索</button>
+				</div>
+			</div>
+		</form>
+		
+		<!-- 显示区 -->
+		<div class="row-lg-6 mb-4">
+			<div class="card">
+				<div class="card-header">
+					<h6 class="text-uppercase mb-0">权限管理</h6>
+				</div>
+				<div class="card-body">
+					<table class="table table-striped table-hover card-text" style="text-align: center;">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>管理员</th>
+								<th>权限</th>
+								<th>创建时间</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody class="dataview" dataview="admin">
+							<tr class="dv-unit" id="dv-unit" style="display: none;">
+								<th class="dv-elem-index" scope="row">1</th>
+								<td class="dv-elem-expose" dv-elem="username">Mark</td>
+								<td class="dv-elem-map" dv-elem="permission">普通管理员</td>
+								<td class="dv-elem-expose" dv-elem="createTime">Otto</td>
+								<td class="dv-elem-map" dv-elem="hiddenFlag">
+									<div class="btn-group-toggle" data-toggle="buttons">
+										<label class="btn btn-sm btn-ban" id="ckb-ban">
+											<input type="checkbox" checked> 封禁
+										</label>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
+
+<script type="text/javascript">
+	var admin_resolve = function(dataset) {
+		let map_resolve = function(data, jquery) {
+			var attr = jquery.attr('dv-elem');
+			switch (attr) {
+				case 'hiddenFlag':
+					if (data[attr] != 0) {
+						jquery.find('label#ckb-ban').addClass('active');
+					}
+					break;
+				case 'permission':
+					if (data[attr] != 1) {
+						jquery.text('普通管理员');
+					} else {
+						jquery.text('超级管理员');
+					}
+					break;
+			}
+		};
+		dv_rendering(dataset, $('.dataview[dataview="admin"]'), map_resolve, $.noop);
+	};
+</script>
+<script type="text/javascript">
+	$('button#btn-add').click(function() {
+		changeTab('admin_add');
+		history.pushState({tab: 'admin_add'}, null, view.getUrl('bgms', 'bgms') + '?tab=admin&action=add');
+	});
+	$('button#btn-search').click(function() {
+		let keywords = $(this).parent().siblings(':text').val().trim();
+		if (keywords == '') {
+			getAdminList(null, $.noop, admin_resolve);
+			return;
+		}
+		let params = {keywords: keywords};
+		adminSearchByUsername(params, $.noop, admin_resolve);
+	});
+	$('label#ckb-ban').click(function() {
+		let id = $(this).parents('tr.dv-unit').attr('id');
+		let params = {id: id};
+		if ($(this).hasClass('active')) {
+			adminUnban(params);
+		} else {
+			adminBan(params);
+		}
+	});
+</script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		getAdminList(null, $.noop, admin_resolve);
+	});
+</script>

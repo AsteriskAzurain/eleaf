@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../resources/js/jquery.min.js"></script>
+<script type="text/javascript" src="../resources/js/md5.js"></script>
+<style type="text/css">
+	* {
+		font-size: 16px;
+		color: #000;
+	}
+
+	body {
+		margin: 0;
+		padding: 0;
+	}
+
+	.content {
+		text-indent: 2rem;
+	}
+
+	table {
+		margin: 1rem;
+		border-collapse: collapse;
+	}
+
+	table, th, td {
+		padding: 0.5rem;
+		border: 1px solid #000;
+	}
+</style>
+<title>注册测试</title>
+</head>
+<body>
+	<h2>注册测试</h2>
+	<input type="text" name="username" placeholder="请输入用户名" maxlength="16" /><br/>
+	<input type="text" name="password" placeholder="请输入密码" maxlength="20" /><br/>
+	<input type="submit" value="新建" id="create" />
+	<div id="result"></div>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#create").click(function() {
+				$.ajax({
+					url : "http://localhost:8080/eleaf" + "/test/user/logon",
+					type : "post",
+					dataType : "json",
+					data : {'username': $('[name="username"]').val(), 'password': b64_md5($('[name="password"]').val())},
+					success : function(response) {
+						var data = response['data'];
+						$("#result").html('<span>id: </span>\n<span>' + data + '</span>\n');
+					},
+					error : function() {
+						alert("服务器开小差啦，请稍后再试~");
+					}
+				});
+			});
+		});
+	</script>
+</body>
+</html>
