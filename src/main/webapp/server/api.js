@@ -233,6 +233,92 @@ const api = {
 				}
 			}
 		},
+		goods_type: {
+			root: '/goods/type',
+			action: {
+				getAll: {
+					method: 'GET',
+					url: '/getAll',
+					params: {},
+					returns: {
+						type_name: 'string',
+						hiddenFlag: 'int',
+						createTime: 'timestamp',
+						creator: 'string',
+						modifyTime: 'timestamp',
+						modifier: 'string',
+						memo: 'string'
+					}
+				},
+				getOne: {
+					method: 'GET',
+					url: '/getOne',
+					params: {
+						id: 'string'
+					},
+					returns: {
+						type_name: 'string',
+						hiddenFlag: 'int',
+						createTime: 'timestamp',
+						creator: 'string',
+						modifyTime: 'timestamp',
+						modifier: 'string',
+						memo: 'string'
+					}
+				},
+				search: {
+					method: 'GET',
+					url: '/search',
+					params: {
+						keywords: 'string'
+					},
+					returns: {
+						type_name: 'string',
+						hiddenFlag: 'int',
+						createTime: 'timestamp',
+						creator: 'string',
+						modifyTime: 'timestamp',
+						modifier: 'string',
+						memo: 'string'
+					}
+				},
+				add: {
+					method: 'POST',
+					url: '/add',
+					params: {
+						type_name: 'string',
+						hiddenFlag: 'int',
+					},
+					returns: {}
+				},
+				update: {
+					method: 'POST',
+					url: '/update',
+					params: {
+						id: 'string',
+						type_name: 'string',
+						hiddenFlag: 'int',
+					},
+					returns: {}
+				},
+				onSale: {
+					method: 'POST',
+					url: '/onSale',
+					params: {
+						id: 'string'
+					},
+					returns: {}
+				},
+				withdraw: {
+					method: 'POST',
+					url: '/withdraw',
+					params: {
+						id: 'string'
+					},
+					returns: {}
+				}
+			}
+		},
 		admin: {
 			root: '/admin',
 			action: {
@@ -349,6 +435,7 @@ const goodsUpdate = (params, detect, resolve) => api.request('goods_info', 'upda
 const goodsOnsale = (params, detect, resolve) => api.request('goods_info', 'onSale', params, detect, resolve);
 const goodsWithdraw = (params, detect, resolve) => api.request('goods_info', 'withdraw', params, detect, resolve);
 
+<<<<<<< Updated upstream
 // member (4)
 const getMemberList = (params, detect, resolve) => api.request('member', 'getMemberList', params, detect, resolve);
 const getMemberById = (params, detect, resolve) => api.request('member', 'getMemberById', params, detect, resolve);
@@ -362,6 +449,16 @@ const memberExist = (params, detect, resolve) => api.request('member', 'exist', 
 const sendResetPwd = (params, detect, resolve) => api.request('member', 'sendResetPwd', params, detect, resolve);
 const verifyResetPwd = (params, detect, resolve) => api.request('member', 'verifyResetPwd', params, detect, resolve);
 const resetPwd = (params, detect, resolve) => api.request('member', 'resetPwd', params, detect, resolve);
+=======
+// goods_type
+const getGTypeList = (params, detect, resolve) => api.request('goods_type','getAll',params,detect,resolve);
+const getTypeById = (params, detect, resolve) => api.request('goods_type', 'getOne', params, detect, resolve);
+const typeSearch = (params, detect, resolve) => api.request('goods_type', 'search', params, detect, resolve);
+const typeAdd = (params, detect, resolve) => api.request('goods_type', 'add', params, detect, resolve);
+const typeUpdate = (params, detect, resolve) => api.request('goods_type', 'update', params, detect, resolve);
+const typeOnsale = (params, detect, resolve) => api.request('goods_type', 'onSale', params, detect, resolve);
+const typeWithdraw = (params, detect, resolve) => api.request('goods_type', 'withdraw', params, detect, resolve);
+>>>>>>> Stashed changes
 
 // admin (5)
 const getAdminList = (params, detect, resolve) => api.request('admin', 'getAdminList', params, detect, resolve);

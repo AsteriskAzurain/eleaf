@@ -12,19 +12,19 @@
 						<legend>添加类别</legend>
 						<div class="form-group mt-4">
 							<label for="InputTypeName">类别名</label>
-							<input id="InputTypeName" type="text" placeholder="Enter type_name" class="form-control" />
+							<input id="InputTypeName" type="text" placeholder="输入商品类别名" class="form-control" />
 						</div>
-						<div class="form-group mt-4">
-							<label for="customRadio">是否启用</label>
-							<div class="custom-control custom-radio">
-								<input id="customRadio1" type="radio" name="customRadio" class="custom-control-input" value="1" checked="checked" />
-								<label for="customRadio1" class="custom-control-label">启用</label>
-							</div>
-							<div class="custom-control custom-radio">
-								<input id="customRadio0" type="radio" name="customRadio" class="custom-control-input" value="0" />
-								<label for="customRadio0" class="custom-control-label">不启用</label>
-							</div>
-						</div>
+<!-- 						<div class="form-group mt-4"> -->
+<!-- 							<label for="customRadio">是否启用</label> -->
+<!-- 							<div class="custom-control custom-radio"> -->
+<!-- 								<input id="customRadio1" type="radio" name="customRadio" class="custom-control-input" value="1" checked="checked" /> -->
+<!-- 								<label for="customRadio1" class="custom-control-label">启用</label> -->
+<!-- 							</div> -->
+<!-- 							<div class="custom-control custom-radio"> -->
+<!-- 								<input id="customRadio0" type="radio" name="customRadio" class="custom-control-input" value="0" /> -->
+<!-- 								<label for="customRadio0" class="custom-control-label">不启用</label> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<button type="button" class="btn btn-primary mt-4" id="btn-add">提交</button>
 					</fieldset>
 				</div>
@@ -38,4 +38,21 @@
 	$('div#goods-collapse').addClass('show');
 	$('a[href="#goods-collapse"]').addClass('active');
 	$('a.sidebar-link#goods_type').addClass('active');
+</script>
+<script type="text/javascript">
+	$('button#btn-add').click(function() {
+		let name = $('input#InputTypeName').val().trim();
+		if (name == '') {
+			tip('商品类别名称不能为空！', 'error');
+			return;
+		}
+		//let description = $('textarea#InputTypeDesc').val().trim();
+		let params = {type_name: name};
+		let add_resolve = function(dataset) {
+			changeTab('goods_type');
+			history.pushState({tab: 'goods_type'}, null, view.getUrl('bgms', 'bgms') + '?tab=goods_type');
+			tip('添加成功！', 'success');
+		}
+		typeAdd(params, $.noop, add_resolve);
+	});
 </script>
