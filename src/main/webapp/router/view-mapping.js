@@ -6,24 +6,6 @@
 
 const view = {
 	model: {
-		root: {
-			root: '',
-			pages: {
-				register: '/register.html',
-				login: '/login.html',
-				sendReset: '/reset_send.html',
-				reset: '/reset.html'
-			}
-		},
-		one: {
-			root: '/one/home',
-			pages: {
-				home: '/home.html',
-				login: '/login.html',
-				register: '/register.html',
-				pay: '/pay.html'
-			}
-		},
 		test: {
 			root: '/test',
 			pages: {
@@ -39,8 +21,6 @@ const view = {
 				bgms: '/bgms.html',
 				home: '/home.html',
 				goods_info: '/goods_info.html',
-				goods_info_add: '/goods_info_add.html',
-				goods_info_update: '/goods_info_update.html',
 				goods_type: '/goods_type.html',
 				goods_type_add: '/goods_type_add.html',
 				goods_type_update: '/goods_type_update.html',

@@ -68,5 +68,4 @@
 			AND hidden_flag = 0
 		</if>
 	</update>
-	
 </mapper>

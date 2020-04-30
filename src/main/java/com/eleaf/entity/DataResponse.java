@@ -32,16 +32,19 @@ public class DataResponse implements Serializable {
 	 * 返回数据
 	 */
 	private Object data;
-	
+
 	public DataResponse success(Object data) {
 		this.code = "200";
 		this.msg = "success";
 		this.data = data;
 		return this;
 	}
-	
-	public DataResponse success() {
-		return success(null);
+
+	public DataResponse error() {
+		this.code = "500";
+		this.msg = "error";
+		this.data = null;
+		return this;
 	}
 
 	public DataResponse error(String code, String msg) {
@@ -49,9 +52,5 @@ public class DataResponse implements Serializable {
 		this.msg = msg;
 		this.data = null;
 		return this;
-	}
-	
-	public DataResponse error() {
-		return error("500", "error");
 	}
 }

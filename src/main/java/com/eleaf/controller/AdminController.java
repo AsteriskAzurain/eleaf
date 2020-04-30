@@ -30,8 +30,8 @@ public class AdminController {
 	 * 
 	 * @return 响应前端的 Json 数据，封装了所有的 Admin
 	 */
-	@GetMapping("/getAll")
-	private DataResponse getAll() {
+	@GetMapping("/getAdminList")
+	private DataResponse getAdminList() {
 		DataResponse response = new DataResponse();
 		List<Admin> result = service.getAll("create_time", true);
 		return response.success(result);
@@ -43,8 +43,8 @@ public class AdminController {
 	 * @param id 主键
 	 * @return 响应前端的 Json 数据，封装了对应主键的 Admin
 	 */
-	@GetMapping("/getOne")
-	private DataResponse getOne(@RequestParam("id") String id) {
+	@GetMapping("/getAdminById")
+	private DataResponse getAdminById(@RequestParam("id") String id) {
 		DataResponse response = new DataResponse();
 		Admin admin = new Admin();
 		admin.setId(id);
@@ -94,7 +94,7 @@ public class AdminController {
 	 * @param password 新密码
 	 * @return 响应前端的 Json 数据，封装空值（Null）
 	 */
-	@PostMapping("/updatePwd")
+	@PostMapping("updatePwd")
 	private DataResponse updatePwd(@RequestParam("id") String id, @RequestParam("password") String password) {
 		DataResponse response = new DataResponse();
 		Admin admin = new Admin();
@@ -129,7 +129,7 @@ public class AdminController {
 	 * @param id 管理员id
 	 * @return 响应前端的 Json 数据，封装空值（Null）
 	 */
-	@PostMapping("/unban")
+	@PostMapping("unban")
 	private DataResponse unban(@RequestParam("id") String id) {
 		DataResponse response = new DataResponse();
 		Admin admin = new Admin();

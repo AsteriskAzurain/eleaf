@@ -4,7 +4,7 @@
 
 <mapper namespace="com.eleaf.dao.mapper.MemberMapper">
 	<!-- 缓存配置 -->
-	<cache eviction="LRU" flushInterval="30000" size="512" readOnly="true" />
+	<cache eviction="LRU" flushInterval="30000" size="512" readOnly="true"/>
 	
 	<resultMap id="e_account_member"
 		type="com.eleaf.entity.Member">
@@ -40,41 +40,10 @@
 	<!-- 登录验证 -->
 	<select id="authenticate" resultType="String">
 		SELECT id
-		FROM e_account_member
+		FROM e_account_admin
 		WHERE username = #{username}
 		AND password = #{password}
 		AND hidden_flag = 0
 	</select>
 	
-	<!-- 用户名模糊查询 -->
-	<select id="searchByUsername" resultMap="e_account_member">
-		SELECT *
-		FROM e_account_member
-		WHERE username LIKE CONCAT('%', #{keywords}, '%')
-		<if test="appearOnly">
-			AND hidden_flag = 0
-		</if>
-	</select>
-	
-	<!-- 修改密码 -->
-	<update id="updatePassword">
-		UPDATE e_account_member
-		SET password = #{password}
-		WHERE id = #{id}
-		<if test="appearOnly">
-			AND hidden_flag = 0
-		</if>
-	</update>
-	
-	<!-- 重置密码 -->
-	<select id="resetPassword" resultType="String">
-		SELECT m.id
-		FROM e_account_member AS m
-		INNER JOIN e_account_member_info AS mi ON mi.id = m.id
-		WHERE m.username = #{username}
-		AND mi.email = #{email}
-		<if test="appearOnly">
-			AND m.hidden_flag = 0
-		</if>
-	</select>
 </mapper>

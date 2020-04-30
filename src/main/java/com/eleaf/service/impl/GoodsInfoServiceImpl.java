@@ -5,41 +5,54 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eleaf.dao.mapper.GoodsInfoMapper;
+import com.eleaf.dao.mapper.GoodsInfoDaoMapper;
 import com.eleaf.entity.GoodsInfo;
 import com.eleaf.service.GoodsInfoService;
-import com.eleaf.util.verify.Verify;
 
 @Service
 public class GoodsInfoServiceImpl extends BaseServiceImpl<GoodsInfo> implements GoodsInfoService {
 	
 	@Autowired
-	private GoodsInfoMapper ginfodao;
+	private GoodsInfoDaoMapper ginfodao;
 	
 	@Override
-	public String createOne(GoodsInfo goods) {
-		if (Verify.isInvalid(goods)) {
-			return "";
+	public boolean hideOne(GoodsInfo record) {
+		// TODO Auto-generated method stub
+		GoodsInfo info=new GoodsInfo();
+		info.setId(record.getId());
+		info=ginfodao.selectByPrimaryKey(info.getId());
+		int rs=-2;
+		if(info.getHiddenFlag()==0) {
+			rs=0;
 		}
-		if (exist(goods.getId())) {
-			return "";
+		if(info.getHiddenFlag()==1) {
+			rs=ginfodao.goodsputDown(info);
 		}
-		if (exist("goods_name", goods.getGoods_name())) {
-			return "";
-		}
-		if (ginfodao.insertSelective(goods) > 0) {
-			return ginfodao.selectOne(goods).getId();
-		}
-		return "";
+		if(rs==-2) return false;
+		else {return true;}
 	}
-	
+
 	@Override
-	public List<GoodsInfo> search(String keywords) {
-		// 判空
-		if (Verify.isInvalid(keywords)) {
-			return null;
+	public List<GoodsInfo> goodsquerybyName(GoodsInfo record) {
+		// TODO Auto-generated method stub
+		return ginfodao.goodsquerybyName(record.getGoods_name());
+	}
+
+	@Override
+	public boolean goodsputOn(GoodsInfo record) {
+		// TODO Auto-generated method stub
+		GoodsInfo info=new GoodsInfo();
+		info.setId(record.getId());
+		info=ginfodao.selectByPrimaryKey(info.getId());
+		int rs=-2;
+		if(info.getHiddenFlag()==0) {
+			rs=ginfodao.goodsputOn(info);
 		}
-		return ginfodao.search(keywords, false);
+		if(info.getHiddenFlag()==1) {
+			rs=ginfodao.goodsputDown(info);
+		}
+		if(rs==-2) return false;
+		else {return true;}
 	}
 
 }

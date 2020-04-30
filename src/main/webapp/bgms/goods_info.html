@@ -2,11 +2,11 @@
 	<div class="col">
 		
 		<form class="form-inline">
-			<button type="button" class="btn btn-primary mb-2" style="margin-right: 20px" id="btn-add">添加</button>
+			<button type="button" class="btn btn-primary mb-2" style="margin-right: 20px">增加</button>
 			<div class="input-group mb-2">
 				<input type="text" placeholder="请输入搜索内容" aria-describedby="button-addon2" class="form-control" />
 				<div class="input-group-append">
-					<button id="btn-search" type="button" class="btn btn-primary">搜索</button>
+					<button id="button-addon2" type="button" class="btn btn-primary">搜索</button>
 				</div>
 			</div>
 		</form>
@@ -23,6 +23,7 @@
 								<th>#</th>
 								<th>类别</th>
 								<th>商品名</th>
+								<th>库存</th>
 								<th>是否上架</th>
 								<th>单价</th>
 								<th>成本</th>
@@ -31,25 +32,27 @@
 								<th>操作</th>
 							</tr>
 						</thead>
-						<tbody class="dataview" dataview="ginfo">
-							<tr class="dv-unit" style="display: none;">
+						<tbody class="dataview" dataview="goods_info">
+							<tr class="dv-unit">
 								<th scope="row" class="dv-elem-index">1</th>
-								<td class="dv-elem-expose" dv-elem="type_id">Mark</td>
-								<td class="dv-elem-expose" dv-elem="goods_name">Otto</td>
-								<td class="dv-elem-map" dv-elem="hiddenFlag">
+								<td class="dv-elem-map" dv-elem="">Mark</td>
+								<td class="dv-elem-expose" dv-elem="">Otto</td>
+								<td class="dv-elem-expose" dv-elem="">Mark</td>
+								<td class="dv-elem-map" dv-elem="">
 									<div class="btn-group-toggle" data-toggle="buttons">
-										<label class="btn btn-sm btn-puton active" id="ckb-puton">
+										<label class="btn btn-sm btn-puton active">
 										<input type="checkbox" checked /> 上架
 										</label>
 									</div>
 								</td>
-								<td class="dv-elem-expose" dv-elem="goods_price">Mark</td>
-								<td class="dv-elem-expose" dv-elem="goods_cost">Otto</td>
-								<td class="dv-elem-expose" dv-elem="goods_view_count">Mark</td>
-								<td class="dv-elem-expose" dv-elem="goods_buy_count">Otto</td>
+								<td class="dv-elem-expose" dv-elem="">Mark</td>
+								<td class="dv-elem-expose" dv-elem="">Otto</td>
+								<td class="dv-elem-expose" dv-elem="">Mark</td>
+								<td class="dv-elem-expose" dv-elem="">Otto</td>
 								<td>
 									<div class="inline">
-										<button type="button" class="btn btn-sm btn-secondary" id="btn-update">编辑</button>
+										<button type="button" class="btn btn-sm btn-secondary">编辑</button>
+										<button type="button" class="btn btn-sm btn-secondary">删除</button>
 									</div>
 								</td>
 							</tr>
@@ -61,56 +64,3 @@
 
 	</div>
 </section>
-
-<script type="text/javascript">
-	var ginfo_resolve = function(dataset) {
-		let map_resolve = function(data, jquery) {
-			var attr = jquery.attr('dv-elem');
-			switch (attr) {
-				case 'hiddenFlag':
-					if (data[attr] != 0) {
-						jquery.find('label#ckb-puton').removeClass('active');
-					} else {
-						jquery.find('label#ckb-puton').addClass('active');
-					}
-					break;
-			}
-		};
-		dv_rendering(dataset, $('.dataview[dataview="ginfo"]'), map_resolve, $.noop);
-	};
-</script>
-<script type="text/javascript">
-	$('button#btn-add').click(function() {
-		changeTab('goods_info_add');
-		history.pushState({tab: 'goods_info_add'}, null, view.getUrl('bgms', 'bgms') + '?tab=goods_info&action=add');
-	});
-	$('button#btn-search').click(function() {
-		let keywords = $(this).parent().siblings(':text').val().trim();
-		console.log(keywords);
-		if (keywords == '') {
-			getGInfoList(null, $.noop, ginfo_resolve);
-			return;
-		}
-		let params = {keywords: keywords};
-		goodsSearch(params, $.noop, ginfo_resolve);
-	});
-	$('button#btn-update').click(function() {
-		let id = $(this).parents('tr.dv-unit').attr('id');
-		changeTab('goods_info_update');
-		history.pushState({tab: 'goods_info_update'}, null, view.getUrl('bgms', 'bgms') + `?tab=goods_info&action=update&id=${id}`);
-	});
-	$('label#ckb-puton').click(function() {
-		let id = $(this).parents('tr.dv-unit').attr('id');
-		let params = {id: id};
-		if ($(this).hasClass('active')) {
-			goodsOnsale(params);
-		} else {
-			goodsWithdraw(params);
-		}
-	});
-</script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		getGInfoList(null, $.noop, ginfo_resolve);
-	});
-</script>

@@ -1,5 +1,2 @@
 /target/
 /src/main/webapp/bgms/old/
-/src/test/
-!/src/test/java/com/eleaf/DatabaseConnectionTest.java
-/logs/

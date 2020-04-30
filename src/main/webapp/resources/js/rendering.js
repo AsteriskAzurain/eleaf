@@ -31,7 +31,7 @@ function tip(msg, level = 'info', durability = 2000, speed = 500) {
 			tip_jq.addClass('color-disabled');
 			break;
 		default:
-			tip_jq.addClass('color-gray');
+			tip_jq.addClass('color-primary');
 			break;
 	}
 	tip_jq.hide().appendTo('body').fadeIn(speed);
@@ -71,6 +71,17 @@ function dv_rendering(dataset, container, map_resolve = $.noop, unit_resolve = $
 		
 		// 处理 map 型元素（映射）
 		unit.find('.dv-elem-map').each(function() {
+			var puton=$(this).find('label')
+			$(puton).attr("title",data.hiddenFlag);
+			$(puton).attr("id",data.id);
+			if (data.hiddenFlag==0){
+				 $(puton).addClass("active");
+			} else {
+				$(puton).removeClass("active");
+			}
+			var btn=$(this).find('button')
+			$(btn[0]).attr("title",data.id);
+			$(btn[1]).attr("title",data.id);
 			map_resolve(data, $(this));
 		});
 		

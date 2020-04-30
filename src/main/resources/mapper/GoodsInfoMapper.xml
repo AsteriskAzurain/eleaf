@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.eleaf.dao.mapper.GoodsInfoMapper">
+<mapper namespace="com.eleaf.dao.mapper.GoodsInfoDaoMapper">
 	<!-- 缓存配置 -->
 	<cache eviction="LRU" flushInterval="30000" size="512"
 		readOnly="true" />
 	
 	<resultMap id="e_goods_info" type="com.eleaf.entity.GoodsInfo">
-		<!-- public -->
 		<id property="id" column="id" />
+	<!-- public -->
 		<result property="hiddenFlag" column="hidden_flag" />
 		<result property="createTime" column="create_time" />
 		<result property="creator" column="creator" />
 		<result property="modifyTime" column="modify_time" />
 		<result property="modifier" column="modifier" />
 		<result property="memo" column="memo" />
-		<!-- private -->
+	<!-- private -->
 		<result property="goods_name" column="goods_name" />
 		<result property="goods_description" column="goods_description" />
 		<result property="goods_price" column="goods_price" />
@@ -26,7 +26,6 @@
 		<result property="goods_main_img" column="goods_main_img" />
 		
 	</resultMap>
-	
 	<sql id="insert_columns">
 		id,
 		goods_name,
@@ -37,15 +36,39 @@
 		hidden_flag
 	</sql>
 	
-	<!-- 商品模糊查询 -->
-	<select id="search" resultMap="e_goods_info">
+	<select id="goodsquerybyName" resultMap="e_goods_info" parameterType="String">
 		SELECT *
 		FROM e_goods_info
-		WHERE goods_name LIKE CONCAT('%', #{keywords}, '%')
-		OR goods_description LIKE CONCAT('%', #{keywords}, '%')
-		<if test="appearOnly">
-			AND hidden_flag = 0
-		</if>
+		<where>
+			<!-- goods_name like "%"#{gname}"%" -->
+			goods_name like CONCAT(CONCAT('%',#{gname}),'%')
+		</where>
 	</select>
+
+	<update id="goodsputDown" parameterType="com.eleaf.entity.GoodsInfo">
+		update e_goods_info
+		<trim prefix="set">
+			hidden_flag=0
+		</trim>
+		<where>
+			id=#{info.id}
+		</where>
+	</update>
+	<update id="goodsputOn" parameterType="com.eleaf.entity.GoodsInfo">
+		update e_goods_info
+		<trim prefix="set">
+			hidden_flag=1
+		</trim>
+		<where>
+			id=#{info.id}
+		</where>
+	</update>
 	
+	<select id="querybyid" parameterType="String" resultMap="e_goods_info">
+		select *
+		FROM e_goods_info
+		<where>
+			id=#{id}
+		</where>
+	</select>
 </mapper>

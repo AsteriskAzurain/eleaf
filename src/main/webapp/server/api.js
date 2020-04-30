@@ -1,82 +1,5 @@
 const api = {
 	model: {
-		member: {
-			root: '/member',
-			action: {
-				getMemberList: {
-					method: 'GET',
-					url: '/getAll',
-					params: {},
-					returns: {}
-				},
-				getMemberById: {
-					method: 'GET',
-					url: '/getOne',
-					params: {},
-					returns: {}
-				},
-				searchByUsername: {
-					method: 'GET',
-					url: '/searchByUsername',
-					params: {},
-					returns: {}
-				},
-				logon: {
-					method: 'POST',
-					url: '/logon',
-					params: {},
-					returns: {}
-				},
-				updatePwd: {
-					method: 'POST',
-					url: '/updatePwd',
-					params: {},
-					returns: {}
-				},
-				ban: {
-					method: 'POST',
-					url: '/ban',
-					params: {},
-					returns: {}
-				},
-				unban: {
-					method: 'POST',
-					url: '/unban',
-					params: {},
-					returns: {}
-				},
-				login: {
-					method: 'GET',
-					url: '/login',
-					params: {},
-					returns: {}
-				},
-				exist: {
-					method: 'GET',
-					url: '/exist',
-					params: {},
-					returns: {}
-				},
-				sendResetPwd: {
-					method: 'GET',
-					url: '/sendResetPwd',
-					params: {},
-					returns: {}
-				},
-				verifyResetPwd: {
-					method: 'GET',
-					url: '/verifyResetPwd',
-					params: {},
-					returns: {}
-				},
-				resetPwd: {
-					method: 'POST',
-					url: '/resetPwd',
-					params: {},
-					returns: {}
-				}
-			}
-		},
 		test_user: {
 			root: '/test/user',
 			action: {
@@ -119,126 +42,12 @@ const api = {
 				}
 			}
 		},
-		goods_info: {
-			root: '/goods/info',
-			action: {
-				getAll: {
-					method: 'GET',
-					url: '/getAll',
-					params: {},
-					returns: {
-						goods_name: 'string',
-						goods_description: 'string',
-						goods_price: 'float',
-						goods_cost: 'float',
-						type_id: 'string',
-						goods_buy_count: 'integer',
-						goods_view_count: 'integer',
-						goods_img: 'string',
-						goods_main_img: 'string',
-						hiddenFlag: 'int',
-						createTime: 'timestamp',
-						creator: 'string',
-						modifyTime: 'timestamp',
-						modifier: 'string',
-						memo: 'string'
-					}
-				},
-				getOne: {
-					method: 'GET',
-					url: '/getOne',
-					params: {
-						id: 'string'
-					},
-					returns: {
-						goods_name: 'string',
-						goods_description: 'string',
-						goods_price: 'float',
-						goods_cost: 'float',
-						type_id: 'string',
-						goods_buy_count: 'integer',
-						goods_view_count: 'integer',
-						goods_img: 'string',
-						goods_main_img: 'string',
-						hiddenFlag: 'int',
-						createTime: 'timestamp',
-						creator: 'string',
-						modifyTime: 'timestamp',
-						modifier: 'string',
-						memo: 'string'
-					}
-				},
-				search: {
-					method: 'GET',
-					url: '/search',
-					params: {
-						keywords: 'string'
-					},
-					returns: {
-						goods_name: 'string',
-						goods_description: 'string',
-						goods_price: 'float',
-						goods_cost: 'float',
-						type_id: 'string',
-						goods_buy_count: 'integer',
-						goods_view_count: 'integer',
-						goods_img: 'string',
-						goods_main_img: 'string',
-						hiddenFlag: 'int',
-						createTime: 'timestamp',
-						creator: 'string',
-						modifyTime: 'timestamp',
-						modifier: 'string',
-						memo: 'string'
-					}
-				},
-				add: {
-					method: 'POST',
-					url: '/add',
-					params: {
-						goods_name: 'string',
-						goods_description: 'string',
-						goods_price: 'float',
-						gods_cost: 'float'
-					},
-					returns: {}
-				},
-				update: {
-					method: 'POST',
-					url: '/update',
-					params: {
-						id: 'string',
-						goods_name: 'string',
-						goods_description: 'string',
-						goods_price: 'float',
-						gods_cost: 'float'
-					},
-					returns: {}
-				},
-				onSale: {
-					method: 'POST',
-					url: '/onSale',
-					params: {
-						id: 'string'
-					},
-					returns: {}
-				},
-				withdraw: {
-					method: 'POST',
-					url: '/withdraw',
-					params: {
-						id: 'string'
-					},
-					returns: {}
-				}
-			}
-		},
 		admin: {
 			root: '/admin',
 			action: {
 				getAdminList: {
 					method: 'GET',
-					url: '/getAll',
+					url: '/getAdminList',
 					params: {},
 					returns: {
 						username: 'string',
@@ -253,7 +62,7 @@ const api = {
 				},
 				getAdminById: {
 					method: 'GET',
-					url: '/getOne',
+					url: '/getAdminById',
 					params: {
 						id: 'string'
 					},
@@ -335,35 +144,10 @@ const api = {
 	}
 }
 
-// test (0)
 const getTestUserList = (params, detect, resolve) => api.request('test_user', 'getAll', params, detect, resolve);
 const testUserLogin = (params, detect, resolve) => api.request('test_user', 'login', params, detect, resolve);
 const testUserLogon = (params, detect, resolve) => api.request('test_user', 'logon', params, detect, resolve);
 
-// goods_info (8)
-const getGInfoList = (params, detect, resolve) => api.request('goods_info', 'getAll', params, detect, resolve);
-const getGoodsById = (params, detect, resolve) => api.request('goods_info', 'getOne', params, detect, resolve);
-const goodsSearch = (params, detect, resolve) => api.request('goods_info', 'search', params, detect, resolve);
-const goodsAdd = (params, detect, resolve) => api.request('goods_info', 'add', params, detect, resolve);
-const goodsUpdate = (params, detect, resolve) => api.request('goods_info', 'update', params, detect, resolve);
-const goodsOnsale = (params, detect, resolve) => api.request('goods_info', 'onSale', params, detect, resolve);
-const goodsWithdraw = (params, detect, resolve) => api.request('goods_info', 'withdraw', params, detect, resolve);
-
-// member (4)
-const getMemberList = (params, detect, resolve) => api.request('member', 'getMemberList', params, detect, resolve);
-const getMemberById = (params, detect, resolve) => api.request('member', 'getMemberById', params, detect, resolve);
-const memberSearchByUsername = (params, detect, resolve) => api.request('member', 'searchByUsername', params, detect, resolve);
-const memberLogon = (params, detect, resolve) => api.request('member', 'logon', params, detect, resolve);
-const memberUpdatePwd = (params, detect, resolve) => api.request('member', 'updatePwd', params, detect, resolve);
-const memberBan = (params, detect, resolve) => api.request('member', 'ban', params, detect, resolve);
-const memberUnban = (params, detect, resolve) => api.request('member', 'unban', params, detect, resolve);
-const memberLogin = (params, detect, resolve) => api.request('member', 'login', params, detect, resolve);
-const memberExist = (params, detect, resolve) => api.request('member', 'exist', params, detect, resolve);
-const sendResetPwd = (params, detect, resolve) => api.request('member', 'sendResetPwd', params, detect, resolve);
-const verifyResetPwd = (params, detect, resolve) => api.request('member', 'verifyResetPwd', params, detect, resolve);
-const resetPwd = (params, detect, resolve) => api.request('member', 'resetPwd', params, detect, resolve);
-
-// admin (5)
 const getAdminList = (params, detect, resolve) => api.request('admin', 'getAdminList', params, detect, resolve);
 const getAdminById = (params, detect, resolve) => api.request('admin', 'getAdminById', params, detect, resolve);
 const adminSearchByUsername = (params, detect, resolve) => api.request('admin', 'searchByUsername', params, detect, resolve);
